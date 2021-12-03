@@ -1,0 +1,15 @@
+extends layout.pug
+
+block contents 
+    div.bg-blue-900.h-full.pt-30vh
+        div.p-8.mx-auto.rounded-xl.shadow-lg.bg-gray-300.w-96
+            h1.text-4xl.font-bold.text-center.mt-8.text-gray-800 안녕하세요👋
+            form.flex.flex-col.mt-16.space-y-4(method="POST" action="/sign-in")
+                input.rounded.border.border-gray-200.p-2(name="id" type="number" placeholder="예약번호")
+                input.rounded.border.border-gray-200.p-2(name="name" type="text" placeholder="이름")
+                button.primary-btn.red-btn 접속
+            div.flex.flex-row.justify-center.space-x-2.mt-4
+                a.text-sm.text-gray-600(href="/request-reset-password") 예약번호 찾기
+                a.text-sm.ml-2.text-gray-600(href="") 예약하기
+
+block scripts
