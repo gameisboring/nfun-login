@@ -12,7 +12,19 @@ services:
     container_name: node
     command: npm start
     restart: always
-  mongo:
-    image: mongo
-    container_name: mongo
+  db:
+    image: mysql
     restart: always
+    container_name: mysql-db
+    environment:
+      - MYSQL_DATABASE=root
+      - MYSQL_ROOT_PASSWORD=1111
+      - TZ=Asia/Seoul
+    command:
+      - --lower_case_table_names=1 # 대소문자 구분
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db:/var/lib/mysql # db 볼륨 처리
+    ports:
+      - 3306:3306

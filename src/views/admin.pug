@@ -1,0 +1,20 @@
+extends layout.pug
+
+block contents 
+    div.p-8
+        h1.text-4xl.font-bold.text-center.mt-8 관리자 화면 입니다 👋
+    table(class="w-2/3").table-auto.mx-auto
+        thead.text-3xl 
+            tr 
+                th ID 
+                th 이름
+                th 접속횟수
+                th 마지막 접속 시간
+        tbody 
+        each log in logs
+            tr 
+                th.pt-4 #{log.id}
+                th.pt-4 #{log.name}
+                th.pt-4 #{log.accessNum}
+                th.pt-4 #{log.lastAccess}
+block scripts

@@ -24,7 +24,7 @@ db.once('open', function () {
   console.log('Connected to mongod server')
 })
 
-mongoose.connect('mongodb://mongo:27017/?compressors=none', {
+mongoose.connect('mongodb://localhost:27017/?compressors=none', {
   useNewUrlParser: true,
 })
 

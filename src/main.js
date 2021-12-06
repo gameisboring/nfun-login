@@ -3,6 +3,8 @@ require('dotenv').config()
 
 const express = require('express')
 
+const { ADMIN_ID, ADMIN_NAME } = process.env
+
 const { getLogCollection } = require('./db')
 const router = express.Router()
 const app = express()
@@ -29,6 +31,10 @@ router.post('/sign-in', async (req, res) => {
   if (!id || !name) {
     console.log('입력정보를 모두 입력해주세요')
     return
+  }
+  if (id === ADMIN_ID && name === ADMIN_NAME) {
+    console.log('redirect !!!@!@!@')
+    res.redirect('/admin')
   }
 
   // db에서 참가자(people)객체 받아오기
@@ -70,6 +76,14 @@ router.post('/sign-in', async (req, res) => {
 
 router.get('/home', async (req, res) => {
   res.render('home')
+})
+
+router.get('/admin', async (req, res) => {
+  const logCollection = getLogCollection()
+  const logCursor = (await logCollection).find({})
+  const logs = await logCursor.toArray()
+
+  res.render('admin', { logs: logs })
 })
 
 const PORT = 3001
