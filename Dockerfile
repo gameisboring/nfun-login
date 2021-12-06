@@ -7,4 +7,4 @@ COPY . /app
 RUN npm install 
 ENV NODE_ENV development
 CMD ["npm", "start"]
-EXPOSE 3000
+EXPOSE 3001

@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb')
 
-/* // root 폴더 -> .env 파일에 db 정보 입력 후 뽑아서 사용
+// root 폴더 -> .env 파일에 db 정보 입력 후 뽑아서 사용
 const { MONGO_PASSWORD, MONGO_CLUSTER, MONGO_USER, MONGO_DBNAME } = process.env
 
 // 완성된 mongoDB url
@@ -10,7 +10,7 @@ console.log(uri)
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}) */
+})
 
 const mongoose = require('mongoose')
 
@@ -24,11 +24,10 @@ db.once('open', function () {
   console.log('Connected to mongod server')
 })
 
-mongoose.connect('mongodb://127.0.0.1:27017/?compressors=none', {
+mongoose.connect('mongodb://mongo:27017/?compressors=none', {
   useNewUrlParser: true,
 })
 
-/* 
 // 연결여부판별
 let didConnect = false
 
@@ -44,7 +43,6 @@ async function getCollection(name) {
 async function getLogCollection() {
   return getCollection('log')
 }
- */
 
 // exports 해주는 module은 컬렉션리스트 여야 함
 module.exports = {

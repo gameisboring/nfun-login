@@ -1,0 +1,18 @@
+# ./docker-compose.yml
+
+version: '3'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - '3001:3001'
+    container_name: node
+    command: npm start
+    restart: always
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
