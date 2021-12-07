@@ -8,23 +8,23 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - '3001:3001'
-    container_name: node
+      - '3000:3000'
+    container_name: nfun-login
     command: npm start
     restart: always
-  db:
+  mysql:
     image: mysql
     restart: always
-    container_name: mysql-db
+    container_name: mysql
     environment:
-      - MYSQL_DATABASE=root
-      - MYSQL_ROOT_PASSWORD=1111
+      - MYSQL_DATABASE=nfun
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=153153
       - TZ=Asia/Seoul
+    volumes:
+      - ./db:/var/lib/mysql
     command:
-      - --lower_case_table_names=1 # 대소문자 구분
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./db:/var/lib/mysql # db 볼륨 처리
     ports:
       - 3306:3306
