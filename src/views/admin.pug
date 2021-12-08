@@ -1,12 +1,13 @@
 extends layout.pug
 
 block contents 
-    div.p-8
+    div.p-8.flex.justify-center
         h1.text-4xl.font-bold.text-center.mt-8 관리자 화면
+        button.primary-btn.red-btn.mt-8.ml-4(onclick="location.href='/export'") csv출력
     table(class="w-1/2").table-auto.mx-auto
         thead.text-3xl 
             tr 
-                th ID 
+                th 소속 
                 th 이름
                 th 접속횟수
                 th 마지막 접속 시간
@@ -18,6 +19,5 @@ block contents
                 th.pt-4 #{log.ACCESSNUM}
                 th.pt-4 #{log.LASTACCESS}
 
-    button.primary-btn.red-btn.mt-8.mx-auto(onclick="location.href='/export'") csv출력
 
 block scripts

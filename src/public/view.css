@@ -1,0 +1,336 @@
+body {
+  background-color: rgb(37, 57, 133);
+  margin: 0;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: 'Nanum Gothic', Arial !important;
+}
+
+input {
+  outline: none;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.container > .frame {
+  background-color: #ebf3f4;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  display: grid;
+  /*grid-template-areas:*/
+  /*        "video video chat"*/
+  /*        "video video chat"*/
+  /*        "info info chat";*/
+  grid-template-columns: 1fr 280px;
+  height: 85vh;
+  width: 90vw;
+  gap: 0.5rem;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.container > .frame > .video-info {
+  overflow: auto;
+  /*display: grid;*/
+  /*gap: .5rem;*/
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .video-info > .video {
+  /*grid-area: video;*/
+  /*background-color: #000;*/
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.container > .frame > .video-info > .video > iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .reference {
+  /*grid-area: chat;*/
+  background-color: #fff;
+  /*grid-column: 2 / 3;*/
+  /*grid-row: 1 / 3;*/
+  border-radius: 0.7rem;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.container > .frame > .reference > .title {
+  font-size: 1.3rem;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.container > .frame > .reference > .group {
+  border: 1px solid #aaa;
+  margin: 0.7rem 0.5rem;
+  padding: 0.7rem;
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .reference > .group:hover {
+  transition: background-color 0.2s;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.container > .frame > .reference > .group > .title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #aaa;
+}
+
+.container > .frame > .reference > .group > .contents {
+  margin-top: 0.5rem;
+}
+
+.container > .frame > .reference > .group > .contents > .content {
+  padding: 0.3rem 0.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 0.4rem;
+  border-radius: 0.7rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.container > .frame > .reference > .group > .contents > .content:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.container > .frame > .reference > .group > .contents > .content:active {
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.container
+  > .frame
+  > .reference
+  > .group
+  > .contents
+  > .content
+  > i.fa-file-excel {
+  color: rgb(56, 109, 72);
+}
+
+.container
+  > .frame
+  > .reference
+  > .group
+  > .contents
+  > .content
+  > i.fa-file-powerpoint {
+  color: rgb(189, 78, 49);
+}
+
+.container
+  > .frame
+  > .reference
+  > .group
+  > .contents
+  > .content
+  > i.fa-file-word {
+  color: rgb(53, 83, 144);
+}
+
+.container > .frame > .reference > .group > .contents > .content > div {
+  font-size: 0.9rem;
+}
+
+.container > .frame > .reference > .group > .time-table > .time-group {
+  text-align: center;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #eee;
+  margin: 0.3rem 0rem;
+  background-color: #eee;
+  border-radius: 0.7rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.container > .frame > .reference > .group > .time-table > .time-form {
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 0.7rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 0.3rem;
+  margin: 0.3rem 0rem;
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .reference > .group > .time-table > .time-form:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.container > .frame > .reference > .group > .time-table > .time-form > .title {
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.container > .frame > .reference > .group > .time-table > .time-form > .time {
+  font-size: 0.6rem;
+  align-self: end;
+}
+
+.container > .frame > .reference > .group > .time-table > .time-form > .people {
+  font-size: 0.5rem;
+  color: #999;
+}
+
+.container > .frame > .video-info > .info {
+  /*grid-area: info;*/
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  display: grid;
+  /*grid-template-columns: auto 1fr;*/
+  grid-template-rows: auto auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  overflow: auto;
+}
+
+.container > .frame > .video-info > .info > .question-box {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.container > .frame > .video-info > .info > .question-box > input {
+  border: 2px solid #283150;
+  /*border: 0px;*/
+  /*background-color: #283150;*/
+  /*color: #FFF;*/
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .video-info > .info > .question-box > button {
+  border: 0px;
+  background-color: #283150;
+  color: #fff;
+  border-radius: 0.7rem;
+  padding: 0.3rem 0.9rem;
+  font-weight: 600;
+}
+
+.container > .frame > .video-info > .info > .info-title {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+}
+
+.container > .frame > .video-info > .info > .info-title > .icon {
+  width: 3rem;
+}
+
+.container > .frame > .video-info > .info > .info-title > .info-text {
+  transition: all 0.2s;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.7rem;
+}
+
+.container > .frame > .video-info > .info > .info-title > .info-text:hover {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.container > .frame > .video-info > .info > .info-title > .info-text > .title {
+  font-size: 1.1rem;
+}
+
+.container
+  > .frame
+  > .video-info
+  > .info
+  > .info-title
+  > .info-text
+  > .lastopen {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.container > .frame > .video-info > .info > .info-detail {
+  /*grid-column: 1/3;*/
+  align-self: start;
+}
+
+.container > div:last-child {
+  justify-self: center;
+}
+
+.container > div:last-child > img {
+  width: 10rem;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    height: auto;
+    align-content: normal;
+    align-items: normal;
+  }
+
+  .container > .frame {
+    margin-top: 1rem;
+    width: 90vw;
+    height: auto;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: none;
+    overflow: auto;
+  }
+
+  .container > .frame > .video-info > .video {
+    grid-row: 1 / 2;
+  }
+
+  .container > .frame > .video-info > .info {
+    grid-row: 3 / 4;
+    min-height: 100px;
+    overflow: auto;
+  }
+
+  .container > .frame > .reference {
+    grid-row: 2 / 3;
+    min-height: 300px;
+    grid-column: unset;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(166, 166, 166, 0.83);
+  border-radius: 7px;
+  /*background-clip: padding-box;*/
+  border: 2px solid transparent;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: rgba(133, 133, 133, 0.12);
+  /*background-color: rgba(0, 0, 0, 0);*/
+  border-radius: 7px;
+  /*box-shadow: inset 0px 0px 5px white;*/
+}

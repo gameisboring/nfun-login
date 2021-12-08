@@ -7,7 +7,7 @@
   align-items: center;
   padding-left: 16px;
   padding-right: 16px;
-  font-size: 16px;
+  font-size: 24px;
 }
 
 .primary-btn .logo {
@@ -27,4 +27,51 @@
 
 .pt-30vh {
   padding-top: 30vh;
+}
+
+.home-title {
+  font-size: 3.2rem;
+  letter-spacing: -2px;
+  font-weight: 600;
+  line-height: 3.5rem;
+  color: #00033d;
+}
+@media (max-width: 480px) {
+  .home-title {
+    font-size: 2.2rem;
+    letter-spacing: -1px;
+    line-height: 2.4rem;
+  }
+}
+
+#home-logo {
+  margin: 0 auto;
+  width: 70%;
+}
+
+#login-div {
+  width: 27rem;
+}
+
+@media (max-width: 480px) {
+  #login-div {
+    width: 18rem;
+  }
+}
+
+#main-div {
+  padding-top: 24vh;
+}
+@media (max-width: 1024px) {
+  #main-div {
+    padding-top: 24vh;
+  }
+}
+@media (max-width: 480px) {
+  #main-div {
+    padding-top: 18vh;
+  }
+}
+.test {
+  color: red;
 }
