@@ -126,7 +126,7 @@ router.get('/export', async (req, res) => {
   var upload_folder = './'
   var file = upload_folder + 'log.csv' // ex) /upload/files/sample.txt
 
-  const selectLogQuery = `SELECT * FROM LOG ORDER BY LASTACCESS;`
+  const selectLogQuery = `SELECT NAME AS '이름', ID AS '소속', LASTACCESS AS '마지막 접속 시간' , ACCESSNUM AS '접속횟수'   FROM LOG ORDER BY LASTACCESS;`
   connection.query(selectLogQuery, function (err, results, fields) {
     if (err) {
       console.log(err)
@@ -212,7 +212,7 @@ router.post('/question', async (req, res) => {
 
 // admin 페이지 라우팅
 router.get('/question', async (req, res) => {
-  const selectLogQuery = `SELECT * FROM QUESTION ORDER BY TIME;`
+  const selectLogQuery = `SELECT CONTEXT, NAME, SUBSTR(TIME,12,5) TIME FROM QUESTION;`
   connection.query(selectLogQuery, function (err, results, fields) {
     if (err) {
       console.log(err)
