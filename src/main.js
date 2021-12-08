@@ -76,6 +76,7 @@ router.post('/sign-in', async (req, res) => {
     // selectLogQuery 실행
     if (err) {
       console.log(err)
+      return
     }
     if (results.length > 0) {
       console.log(`${name}님 중복접속`)
@@ -125,7 +126,7 @@ router.get('/export', async (req, res) => {
   var upload_folder = './'
   var file = upload_folder + 'log.csv' // ex) /upload/files/sample.txt
 
-  const selectLogQuery = `SELECT * FROM LOG;`
+  const selectLogQuery = `SELECT * FROM LOG ORDER BY LASTACCESS;`
   connection.query(selectLogQuery, function (err, results, fields) {
     if (err) {
       console.log(err)
@@ -195,7 +196,6 @@ router.get('/document', async (req, res) => {
 router.post('/question', async (req, res) => {
   if (!req.body) {
     res.redirect('/')
-    return
   } else {
     const insertQuestionQuery = `INSERT INTO QUESTION (CONTEXT , NAME , TIME)
     VALUES('${req.body.question}','${req.body.name}','${timeTrans()}');`

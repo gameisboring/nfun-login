@@ -4,20 +4,21 @@ block contents
     div.p-8.flex.justify-center
         h1.text-4xl.font-bold.text-center.mt-8 관리자 화면
         button.primary-btn.red-btn.mt-8.ml-4(onclick="location.href='/export'") csv출력
-    table(class="w-1/2").table-auto.mx-auto
-        thead.text-3xl 
-            tr 
-                th 소속 
-                th 이름
-                th 접속횟수
-                th 마지막 접속 시간
-        tbody 
-        each log in logs
-            tr 
-                th.pt-4 #{log.ID}
-                th.pt-4 #{log.NAME}
-                th.pt-4 #{log.ACCESSNUM}
-                th.pt-4 #{log.LASTACCESS}
+    div.overflow-x-auto
+        table#table.table-auto.mx-auto
+            thead.text-3xl 
+                tr 
+                    th 소속 
+                    th 이름
+                    th 접속횟수
+                    th 마지막 접속 시간
+            tbody 
+            each log in logs
+                tr 
+                    th.pt-4 #{log.ID}
+                    th.pt-4 #{log.NAME}
+                    th.pt-4 #{log.ACCESSNUM}
+                    th.pt-4 #{log.LASTACCESS}
 
 
 block scripts
