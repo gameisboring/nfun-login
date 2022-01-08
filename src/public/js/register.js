@@ -65,25 +65,29 @@ $('#submitBtn').on('click', function () {
   }
 
   if (check.name && check.email && check.password) {
-    $.ajax({
-      url: 'register',
-      type: 'POST',
-      dataType: 'Json',
-      data: { DATA: 'data' },
-      success: (res) => {
-        console.log(res)
-        Swal.fire({
-          icon: 'success',
-          text: '사전등록에 성공했습니다',
-        })
-      },
-      error: (err) => {
-        console.log(err)
-        Swal.fire({
-          icon: 'error',
-          text: '사전등록에 실패했습니다',
-        })
-      },
-    })
+    register(check)
   }
 })
+
+function register(DATA) {
+  console.log(DATA)
+  $.ajax({
+    url: '/register',
+    dataType: 'JSON',
+    method: 'POST',
+    data: DATA,
+    success: (res) => {
+      Swal.fire({
+        icon: 'success',
+        text: '사전등록에 성공했습니다',
+      })
+    },
+    error: (err) => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        text: '사전등록에 실패했습니다',
+      })
+    },
+  })
+}
