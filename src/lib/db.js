@@ -1,12 +1,18 @@
-const mysql = require('mysql')
+const mysql = require('mysql2')
+require('dotenv').config()
 
-var connection = mysql.createConnection({
+const host = process.env.DB_HOST
+const user = process.env.DB_USER
+const password = process.env.DB_PASSWORD
+const database = process.env.DB_DATABASE
+
+const connection = mysql.createConnection({
   // host 바꾸기
-  host: 'nstream.kr',
+  host: host,
   port: 3306,
-  user: 'admin',
-  password: '153153',
-  database: 'nfun',
+  user: user,
+  password: password,
+  database: database,
 })
 
 connection.connect(function (err) {

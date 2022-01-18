@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "153153",
+    "database": "nfun",
+    "host": "nstream.kr",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "23456",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "153153",
+    "database": "nfun",
+    "host": "mysql",
+    "dialect": "mysql"
+  }
+}
