@@ -131,7 +131,6 @@ function register(DATA) {
     method: 'POST',
     data: DATA,
     success: (res) => {
-      console.log(res)
       if (!res.ok) {
         Swal.fire({
           icon: 'error',
