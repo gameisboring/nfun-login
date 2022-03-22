@@ -24,9 +24,14 @@
       >
         <div class="md:flex w-full">
           <div
-            class="hidden md:flex w-1/2 bg-indigo-500 flex-nowrap content-center p-10"
+            class="hidden md:flex w-1/2 bg-white flex-nowrap content-center p-10"
           >
-            <img src="images/main-logo.svg" alt="" srcset="" />
+            <img
+              src="images/test-logo.png"
+              alt=""
+              srcset=""
+              style="object-fit: cover"
+            />
           </div>
           <div
             class="w-full md:w-1/2 py-10 px-5 md:px-10 flex-col justify-between"
@@ -77,8 +82,16 @@
                 </div>
               </div>
             </div>
+            <div class="w-full px-3 mt-4 text-center">
+              <a href="/register"><h5>참가신청</h5></a>
+            </div>
+            <div class="w-full px-3 mt-4 text-center">
+              <h5 id="reset-password" class="cursor-pointer">
+                비밀번호 초기화
+              </h5>
+            </div>
             <div class="flex -mx-3 flex-col text-center">
-              <div class="w-full px-3 mt-8 mb-4">
+              <div class="w-full px-3 mt-4 mb-4">
                 <button
                   id="submitBtn"
                   class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"

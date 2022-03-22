@@ -1,0 +1,25 @@
+.logo-img {
+  object-fit: cover;
+  height: 80%;
+  max-height: 520px;
+}
+.login-wrapper,
+.register-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translateY(-50%);
+  width: 33.3333%;
+  transition: all 0.5s;
+}
+
+@media (max-width: 768px) {
+  .login-wrapper,
+  .register-wrapper {
+    width: 100%;
+    display: block;
+    position: relative;
+    left: 0px;
+    bottom: -200px;
+  }
+}

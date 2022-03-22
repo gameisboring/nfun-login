@@ -19,19 +19,19 @@ function bookRender(userData) {
         <div class="flex items-center">
           <div class="">
             <div class="text-sm font-medium text-gray-900">${
-              userData.book_name
+              userData.BOOK_NAME
             }</div>
             <div class="text-sm text-gray-500">test@email.com</div>
           </div>
         </div>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <div class="text-sm text-gray-900">${userData.book_belong}</div>
+        <div class="text-sm text-gray-900">${userData.BOOK_BELONG}</div>
         <!-- <div class="text-sm text-gray-500">포지션</div> -->
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
         <span class="inline-flex text-xs leading-5 font-semibold">
-          ${userData.book_email}
+          ${userData.BOOK_EMAIL}
         </span>
       </td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${

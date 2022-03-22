@@ -2,3 +2,6 @@ node_modules
 .env
 db
 src/public/video
+src/public/images/cap.PNG
+src/public/images/test-logo.png
+src/public/images/visuals-ufK-deiLqY8-unsplash.jpg

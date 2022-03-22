@@ -133,3 +133,28 @@ $('input[name=password]').on('blur', () => {
     $('input[name=password]').removeClass('valid:border-green-500')
   }
 })
+
+$('#reset-password').on('click', () => {
+  Swal.fire({
+    title: '사전등록에 사용하신\n이메일을 입력해주세요',
+    text: '비밀번호 초기화 링크를 보내드리겠습니다',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off',
+    },
+    showCancelButton: true,
+    confirmButtonText: '확인',
+    cancelButtonText: '취소',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return login
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        icon: 'success',
+        title: `${result.value}로 메일이 발송되었습니다`,
+      })
+    }
+  })
+})

@@ -5,6 +5,7 @@ var path = require('path')
 const router = express.Router()
 const app = express()
 const port = process.env.PORT
+const pageTitle = process.env.PAGE_TITLE
 const { createHashedPassword, makePasswordHashed } = require('./lib/pw')
 
 const bodyParser = require('body-parser')
@@ -24,22 +25,25 @@ router.get('/', function (req, res, next) {
 
     const startDate = selRes[0].ADMIN_START.toLocaleString()
     const nowDate = new Date().toLocaleString()
-    console.log(nowDate)
-    console.log(startDate)
+    console.log(`현재시간 : ${nowDate}`)
+    console.log(`시작시간 : ${startDate}`)
     if (nowDate > startDate) {
-      res.render('login', { title: '제목이 들어갈 자리' })
+      res.render('login2', { title: process.env.MAINPAGE_TITLE })
     } else {
-      res.render('register', { title: '제목이 들어갈 자리' })
+      res.render('register', {
+        title: process.env.MAINPAGE_TITLE,
+        header: '사전등록',
+      })
     }
   })
 })
 
 router.get('/admin', function (req, res, next) {
-  res.render('home2', { title: '제목이 들어갈 자리' })
+  res.render('home2', { title: process.env.ADMINPAGE_TITLE })
 })
 router.get('/admin/book', function (req, res, next) {
   connection.query(
-    'SELECT * FROM NFUN_BOOK ORDER BY BOOK_TIME',
+    'SELECT * FROM NFUN_BOOK ORDER BY BOOK_TIME;',
     async (err, selRes) => {
       if (err) {
         console.log(err)
@@ -53,7 +57,14 @@ router.get('/admin/book', function (req, res, next) {
 })
 
 router.get('/home', function (req, res, next) {
-  res.render('home', { title: '제목이 들어갈 자리' })
+  res.render('home', { title: process.env.MAINPAGE_TITLE })
+})
+
+router.get('/register', function (req, res, next) {
+  res.render('register', {
+    title: process.env.MAINPAGE_TITLE,
+    header: '참가신청',
+  })
 })
 
 router.post('/register', async (req, res, next) => {
@@ -98,6 +109,10 @@ router.post('/register', async (req, res, next) => {
   )
 })
 
+router.get('/login', function (req, res, next) {
+  res.render('login', { title: process.env.LOGINPAGE_TITLE })
+})
+
 router.post('/login', async (req, res, next) => {
   // 요청 body 변수 할당
   const { email, password } = req.body
@@ -126,5 +141,5 @@ router.post('/login', async (req, res, next) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`nstream web server listening at http://localhost:${port}`)
 })
