@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kor">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Tailwind Admin Starter Template : Tailwind Toolbox</title>
         <meta name="author" content="name" />
         <meta name="description" content="description here" />
         <meta name="keywords" content="keywords,here" />
@@ -27,6 +26,8 @@
             integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="
             crossorigin="anonymous"
         ></script>
+
+        <title><%= title %></title>
     </head>
 
     <body class="bg-gray-800 font-sans leading-normal tracking-normal">
@@ -238,8 +239,8 @@
                     <div class="flex flex-row flex-wrap flex-grow mt-2">
                         <div class="w-full md:w-1/2 xl:w-1/2 p-6">
                             <div class="bg-white border-transparent rounded-lg shadow-xl">
-                                <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-                                    <h2 class="font-bold uppercase text-gray-600">사전신청</h2>
+                                <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg">
+                                    <h2 class="font-bold uppercase text-gray-600 px-6 py-3">사전신청</h2>
                                 </div>
                                 <div class="flex flex-col">
                                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -251,10 +252,7 @@
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             이름</th>
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                            소속 • 직책
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                            Email
+                                                            등록번호
                                                             </th>
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             권한

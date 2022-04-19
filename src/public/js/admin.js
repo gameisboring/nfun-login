@@ -5,12 +5,19 @@ $(window).load(function () {
     async: true,
     dataType: 'JSON',
     success: (res) => {
-      for (var i in res) {
-        bookRender(res[i])
+      console.log(res.length + '123')
+      if (res.length > 0) {
+        for (var i in res) {
+          bookRender(res[i])
+        }
+      } else {
+        nullRender()
       }
     },
   })
 })
+
+var table = $('#booked-table')
 function bookRender(userData) {
   const output = `
   <tbody class="bg-white divide-y divide-gray-200">
@@ -19,28 +26,40 @@ function bookRender(userData) {
         <div class="flex items-center">
           <div class="">
             <div class="text-sm font-medium text-gray-900">${
-              userData.BOOK_NAME
+              userData.NAME
             }</div>
             <div class="text-sm text-gray-500">test@email.com</div>
           </div>
         </div>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <div class="text-sm text-gray-900">${userData.BOOK_BELONG}</div>
-        <!-- <div class="text-sm text-gray-500">포지션</div> -->
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap">
-        <span class="inline-flex text-xs leading-5 font-semibold">
-          ${userData.BOOK_EMAIL}
-        </span>
+        <div class="text-sm text-gray-900">${userData.ACCOUNT}</div>
       </td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${
-        userData.BOOK_ROLE === null ? '' : userData.BOOK_ROLE
+        userData.ROLE === null ? '' : userData.ROLE
       }</td>
     </tr>
   </tbody>
   `
-  const table = $('#booked-table')
+
+  const tbody = document.createElement('tbody')
+  tbody.classList = 'bg-white divide-y divide-gray-200'
+
+  tbody.innerHTML = output
+  table.append(tbody)
+}
+
+function nullRender() {
+  const output = `<tr>
+    <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center">
+      <div class="">
+        <div class="text-sm font-medium text-gray-900">현재 입력된 유저 데이터가 없습니다</div>
+      </div>
+    </div>
+  </td>
+    </tr>`
+
   const tbody = document.createElement('tbody')
   tbody.classList = 'bg-white divide-y divide-gray-200'
   tbody.innerHTML = output

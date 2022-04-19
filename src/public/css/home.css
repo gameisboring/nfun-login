@@ -378,3 +378,7 @@ input {
 .ytp-title-text {
   display: none;
 }
+
+.text-center {
+  text-align: center;
+}

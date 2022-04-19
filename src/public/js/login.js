@@ -1,83 +1,62 @@
-function emailCheck(email) {
-  var mailRegExp =
-    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
-  return mailRegExp.test(email)
-}
+const input_account = $('input[name=account]')
+const input_name = $('input[name=name]')
 
-function passwordCheck(pw) {
-  var pwRegExp = /^[A-Za-z0-9]{6,12}$/ //숫자와 문자 포함 형태의 6~12자리 이내의 암호 정규식
-  return pwRegExp.test(pw)
-}
-$('input[name=password]').on('keypress', function (key) {
-  if (key.which == 13) {
-    $('#submitBtn').click()
-  }
-})
-
-$('input[name=email]').on('keypress', function (key) {
-  if (key.which == 13) {
-    $('#submitBtn').click()
-  }
-})
+const accountCheck = /^[\s0-9]+$/
 
 $('#submitBtn').on('click', function () {
-  const email = $('input[name=email]')
-  const password = $('input[name=password]')
-  let check = {}
-
-  if (email.val()) {
-    if (!emailCheck($('input[name=email]').val())) {
-      Swal.fire({
-        icon: 'warning',
-        title: '올바르지 않은 이메일 주소입니다',
-      })
-      $('input[name=email]').attr('required', 'required')
-      return false
-    } else {
-      $('input[name=email]').addClass('valid:border-green-500')
-      check.email = $('input[name=email]').val()
-    }
-  } else {
-    $('input[name=email]').attr('required', 'required')
+  if (!input_account.val()) {
+    input_account.attr('required', 'required')
     Swal.fire({
       icon: 'warning',
-      title: '이메일을 입력해주세요',
+      title: '등록번호를 입력해주세요',
     })
     return false
-  }
-
-  if (password.val()) {
-    if (!passwordCheck($('input[name=password]').val())) {
+  } else {
+    if (!accountCheck.test(input_account.val())) {
+      input_account.attr('required', 'required')
       Swal.fire({
         icon: 'warning',
-        title: '양식에 맞지 않는 비밀번호 입니다',
+        title: '등록번호에는\n숫자만 입력 가능합니다',
       })
-      $('input[name=password]').attr('required', 'required')
       return false
-    } else {
-      $('input[name=password]').addClass('valid:border-green-500')
-      check.password = $('input[name=password]').val()
     }
-  } else {
-    $('input[name=password]').attr('required', 'required')
-    Swal.fire({
-      icon: 'warning',
-      title: '비밀번호를 입력해주세요',
-    })
-    return false
   }
 
-  if (check.email && check.password) {
-    login(check)
+  if (!input_name.val()) {
+    input_name.attr('required', 'required')
+    Swal.fire({
+      icon: 'warning',
+      title: '성함을 입력해주세요',
+    })
+    return false
+  } else {
+  }
+
+  const postData = {
+    account: input_account.val(),
+    name: input_name.val(),
+  }
+
+  login(postData)
+})
+
+input_account.keypress(function (key) {
+  if (key.keyCode == 13) {
+    $('#submitBtn').click()
   }
 })
 
-function login(DATA) {
+input_name.keypress(function (key) {
+  if (key.keyCode == 13) {
+    $('#submitBtn').click()
+  }
+})
+
+function login(postData) {
   $.ajax({
     url: '/login',
-    async: true,
-    type: 'post',
-    data: DATA,
+    type: 'POST',
+    data: postData,
     dataType: 'JSON',
     success: (res) => {
       if (res.ok === true) {
@@ -85,7 +64,7 @@ function login(DATA) {
           icon: 'success',
           title: '로그인 되었습니다',
         }).then(() => {
-          location.href = '/home'
+          location.href = `/home?acc=${postData.account}`
         })
       } else if (res.ok === 'ADMIN') {
         Swal.fire({
@@ -98,16 +77,19 @@ function login(DATA) {
           cancelButtonText: '시청 페이지',
         }).then((result) => {
           if (result.isConfirmed) {
-            location.href = '/admin'
+            location.href = `/admin?acc=${postData.account}`
           } else {
-            location.href = '/home'
+            location.href = `/home?acc=${postData.account}`
           }
         })
       } else {
         Swal.fire({
           icon: 'warning',
           title: '로그인 실패',
-          text: '이메일이나 비밀번호를 확인해주세요',
+          text: '성함과 등록번호를 확인해주세요',
+        }).then(() => {
+          input_account.val('')
+          input_name.val('')
         })
       }
     },
@@ -132,29 +114,4 @@ $('input[name=password]').on('blur', () => {
     $('input[name=password]').addClass('border-red-500')
     $('input[name=password]').removeClass('valid:border-green-500')
   }
-})
-
-$('#reset-password').on('click', () => {
-  Swal.fire({
-    title: '사전등록에 사용하신\n이메일을 입력해주세요',
-    text: '비밀번호 초기화 링크를 보내드리겠습니다',
-    input: 'text',
-    inputAttributes: {
-      autocapitalize: 'off',
-    },
-    showCancelButton: true,
-    confirmButtonText: '확인',
-    cancelButtonText: '취소',
-    showLoaderOnConfirm: true,
-    preConfirm: (login) => {
-      return login
-    },
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: `${result.value}로 메일이 발송되었습니다`,
-      })
-    }
-  })
 })
