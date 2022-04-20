@@ -37,40 +37,39 @@ router.get('/login', function (req, res, next) {
 router.post('/login', async (req, res, next) => {
   // 요청 body 변수 할당
   const { account, name } = req.body
-  let ip = requestIp.getClientIp(req)
 
+  // 요청 로그 남기기
+  let ip = requestIp.getClientIp(req)
   logger.info(
-    `REQUEST : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
+    `요청 라우트 : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
   )
 
-  if (name === '관리자' && account === '000000') {
-    logger.info('관리자 로그인')
-    res.status(200).json({ ok: 'ADMIN' })
-    return
-  }
-
+  // 시청자 정보 조회
   try {
     const sql = 'SELECT * FROM `nfun`.`USERS` WHERE ACCOUNT = ? AND NAME = ?;'
     const [rows, fields] = await pool.query(sql, [account, name])
-    if (!rows) {
-      try {
-        const sql =
-          'INSERT INTO `nfun`.`USERS`(`NAME`,`ACCOUNT`,`ROLE`) VALUES (?,?,?);'
-        const insertResult = await pool.query(sql, [name, account, 'viewer'])
-        logger.info(
-          `신규등록 및 로그인 성공 | 등록번호 : ${account} | 이름 : ${name}`
-        )
-        res.json({ ok: true }).status(200)
-      } catch (error) {
+    console.log(rows)
+    // if 조회 정보 없음
+    if (rows.length === 0) {
+      logger.warn(`로그인 실패 | 등록번호 : ${account} | 이름 : ${name}`)
+      res.json({ ok: false })
+    } else {
+      if (rows[0].ROLE == 'A') {
+        // 관리자 제어
+        logger.info(`관리자 로그인 | 등록번호 : ${account} | 이름 : ${name}`)
+        res.status(200).json({ ok: 'ADMIN' })
+        return
+      } else if (rows[0].ROLE == 'V') {
+        logger.info(`로그인 성공 | 등록번호 : ${account} | 이름 : ${name}`)
+        res.status(200).json({ ok: true })
+        return
+      } else {
         logger.error(
-          `sql 에러(POST /login INSERT) | 등록번호 : ${account} | 이름 : ${name}`
+          `유저 역할 정보 조회 실패 (POST /login SELECT) | 등록번호 : ${account} | 이름 : ${name}`
         )
         console.log(error)
         res.json({ ok: false })
       }
-    } else {
-      logger.info(`로그인 성공 | 등록번호 : ${account} | 이름 : ${name}`)
-      res.json({ ok: true }).status(200)
     }
   } catch (error) {
     logger.error(
@@ -82,31 +81,54 @@ router.post('/login', async (req, res, next) => {
 })
 
 router.get('/home', async function (req, res) {
-  try {
-    const acc = req.query.acc
-
-    const [rows, fields] = await pool.query(
-      'SELECT NAME FROM `nfun`.`USERS` WHERE ACCOUNT = ?',
-      [acc]
-    )
-    if (rows.length > 0) {
-      const name = rows[0].NAME
-      res.render('home', { NAME: name })
-    } else {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-      res.write(
-        "<script> alert('잘못된 접근입니다. 로그인을 통해 접속해주세요.'); "
+  const acc = req.query.acc
+  if (acc) {
+    try {
+      const [rows, fields] = await pool.query(
+        'SELECT NAME FROM `nfun`.`USERS` WHERE ACCOUNT = ?',
+        [acc]
       )
-      res.write('window.location="/" </script>')
-      res.end()
+      if (rows.length > 0) {
+        const name = rows[0].NAME
+        res.render('home', { NAME: name, title: MAINPAGE_TITLE })
+        return
+      }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (error) {
-    console.log(error)
   }
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+  res.write(
+    "<script> alert('잘못된 접근입니다. 로그인을 통해 접속해주세요.'); "
+  )
+  res.write('window.location="/" </script>')
+  res.end()
 })
 
-router.get('/admin', function (req, res, next) {
-  res.render('home2', { title: process.env.ADMINPAGE_TITLE })
+router.get('/admin', async function (req, res, next) {
+  const acc = req.query.acc
+
+  if (acc) {
+    try {
+      const [rows, fields] = await pool.query(
+        "SELECT NAME FROM `nfun`.`USERS` WHERE ACCOUNT = ? AND ROLE = 'A'",
+        [acc]
+      )
+      if (rows.length > 0) {
+        const name = rows[0].NAME
+        res.render('home2', { title: process.env.ADMINPAGE_TITLE })
+        return
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+  res.write(
+    "<script> alert('잘못된 접근입니다. 로그인을 통해 접속해주세요.'); "
+  )
+  res.write('window.location="/" </script>')
+  res.end()
 })
 router.get('/admin/book', async function (req, res, next) {
   try {

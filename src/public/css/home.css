@@ -1,12 +1,16 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 body {
-  background-color: rgb(37, 57, 133);
+  background-color: #77c043;
   margin: 0;
   -ms-user-select: none;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  font-family: 'Nanum Gothic', Arial !important;
+  font-family: 'Pretendard', Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
 }
 
 input {
@@ -27,13 +31,9 @@ input {
   padding: 0.7rem 1rem;
   border-radius: 0.5rem;
   display: grid;
-  /*grid-template-areas:*/
-  /*        "video video chat"*/
-  /*        "video video chat"*/
-  /*        "info info chat";*/
-  grid-template-columns: 1fr 280px;
-  height: 85vh;
-  width: 90vw;
+  grid-template-columns: 1fr 20vw;
+  height: 92vh;
+  width: 95vw;
   gap: 0.5rem;
   overflow: hidden;
   min-height: 500px;
@@ -46,13 +46,29 @@ input {
   border-radius: 0.7rem;
 }
 
+.container > .frame > .video-info > .logo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 1vh;
+}
+
+.container > .frame > .video-info > .logo h1 {
+  font-size: 2vw;
+  margin-left: 1rem;
+}
+
+.container > .frame > .video-info > .logo img {
+  height: 8vh;
+}
+
 .container > .frame > .video-info > .video {
   /*grid-area: video;*/
   /*background-color: #000;*/
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 80vh;
   height: 0;
 }
 
@@ -113,36 +129,58 @@ input {
   overflow: auto;
 }
 
-.container > .frame > .reference > .title {
+.container > .frame > .reference > details > summary {
   font-size: 1.3rem;
-  padding: 0.5rem 0.7rem;
-  border-bottom: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  cursor: pointer;
+  background-color: #00589900;
+  transition: background-color 0.3s ease-out;
 }
 
-.container > .frame > .reference > .group {
+.container > .frame > .reference > details[open] > summary {
+  color: white;
+  background-color: #1d95d3;
+}
+
+.container > .frame > .reference > details > summary:hover {
+  background-color: #005899;
+  color: white;
+}
+
+.container > .frame > .reference > details > summary:before {
+  transform: rotate(0);
+  transform-origin: 0.2rem 50%;
+  transition: 0.25s transform ease;
+}
+
+.container > .frame > .reference > details > .group {
   border: 1px solid #aaa;
-  margin: 0.7rem 0.5rem;
+  margin-bottom: 0.7rem;
   padding: 0.7rem;
   border-radius: 0.7rem;
 }
 
-.container > .frame > .reference > .group:hover {
+.container > .frame > .reference > details > .group:hover {
   transition: background-color 0.2s;
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.container > .frame > .reference > .group > .title {
+.container > .frame > .reference > details > .group > .title {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid #aaa;
 }
 
-.container > .frame > .reference > .group > .contents {
+.container > .frame > .reference > details > .group > .contents {
   margin-top: 0.5rem;
 }
 
-.container > .frame > .reference > .group > .contents > .content {
+.container > .frame > .reference > details > .group > .contents > .content {
   padding: 0.3rem 0.5rem;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -153,12 +191,59 @@ input {
   color: #000;
 }
 
-.container > .frame > .reference > .group > .contents > .content:hover {
+.container > .frame > .reference > details > .question-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.container > .frame > .reference > details > .question-box > textarea {
+  border: 1px solid #aaa;
+  /*border: 0px;*/
+  /*background-color: #283150;*/
+  /*color: #FFF;*/
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.7rem;
+  height: 20vh;
+  flex-grow: 1;
+  font-family: 'Pretendard';
+  font-size: 1rem;
+}
+
+.container > .frame > .reference > details > .question-box > textarea:focus {
+  border: 2px solid #888;
+}
+
+.container > .frame > .reference > details > .question-box > button {
+  border: 0px;
+  background-color: #005899;
+  color: #fff;
+  border-radius: 0.7rem;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .contents
+  > .content:hover {
   background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
-.container > .frame > .reference > .group > .contents > .content:active {
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .contents
+  > .content:active {
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
@@ -166,6 +251,7 @@ input {
 .container
   > .frame
   > .reference
+  > details
   > .group
   > .contents
   > .content
@@ -176,6 +262,7 @@ input {
 .container
   > .frame
   > .reference
+  > details
   > .group
   > .contents
   > .content
@@ -186,6 +273,7 @@ input {
 .container
   > .frame
   > .reference
+  > details
   > .group
   > .contents
   > .content
@@ -193,22 +281,35 @@ input {
   color: rgb(53, 83, 144);
 }
 
-.container > .frame > .reference > .group > .contents > .content > div {
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .contents
+  > .content
+  > div {
   font-size: 0.9rem;
 }
 
-.container > .frame > .reference > .group > .time-table > .time-group {
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .time-table
+  > .time-group {
   text-align: center;
-  padding: 0.5rem 0.7rem;
+  padding: 0.3rem 0.6rem;
   border-bottom: 1px solid #eee;
   margin: 0.3rem 0rem;
   background-color: #eee;
   border-radius: 0.7rem;
-  font-weight: 700;
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 
-.container > .frame > .reference > .group > .time-table > .time-form {
+.container > .frame > .reference > details > .group > .time-table > .time-form {
   border-bottom: 1px solid #eee;
   padding: 0.5rem 0.7rem;
   display: grid;
@@ -216,24 +317,52 @@ input {
   row-gap: 0.3rem;
   margin: 0.3rem 0rem;
   border-radius: 0.7rem;
+  transition: 0.3s ease-out;
 }
 
-.container > .frame > .reference > .group > .time-table > .time-form:hover {
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .time-table
+  > .time-form:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.container > .frame > .reference > .group > .time-table > .time-form > .title {
-  font-weight: 600;
-  font-size: 0.8rem;
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .time-table
+  > .time-form
+  > .title {
+  font-weight: 400;
+  font-size: 1rem;
 }
 
-.container > .frame > .reference > .group > .time-table > .time-form > .time {
-  font-size: 0.6rem;
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .time-table
+  > .time-form
+  > .time {
+  font-size: 0.8rem;
   align-self: end;
 }
 
-.container > .frame > .reference > .group > .time-table > .time-form > .people {
-  font-size: 0.5rem;
+.container
+  > .frame
+  > .reference
+  > details
+  > .group
+  > .time-table
+  > .time-form
+  > .people {
+  font-size: 0.8rem;
   color: #999;
 }
 
@@ -249,31 +378,6 @@ input {
   align-items: center;
   gap: 1rem;
   overflow: auto;
-}
-
-.container > .frame > .video-info > .info > .question-box {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.5rem;
-}
-
-.container > .frame > .video-info > .info > .question-box > input {
-  border: 2px solid #283150;
-  /*border: 0px;*/
-  /*background-color: #283150;*/
-  /*color: #FFF;*/
-  width: 100%;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.7rem;
-}
-
-.container > .frame > .video-info > .info > .question-box > button {
-  border: 0px;
-  background-color: #283150;
-  color: #fff;
-  border-radius: 0.7rem;
-  padding: 0.3rem 0.9rem;
-  font-weight: 600;
 }
 
 .container > .frame > .video-info > .info > .info-title {

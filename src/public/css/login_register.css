@@ -1,3 +1,4 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 body,
 input,
 select,
@@ -7,12 +8,19 @@ a {
   text-size-adjust: none;
   font-family: campton, 'Apple SD Gothic Neo', NanumBarunGothic, 나눔바른고딕,
     'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+  font-family: 'Pretendard', Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .logo-img {
   object-fit: cover;
-  height: 80%;
-  max-height: 520px;
+  height: 50%;
 }
 .login-wrapper,
 .register-wrapper {
@@ -33,4 +41,13 @@ a {
     left: 0px;
     bottom: -200px;
   }
+}
+
+#submitBtn {
+  background-color: #1d95d3;
+  transition: all 0.3s ease-out;
+}
+
+#submitBtn:hover {
+  background-color: #005899;
 }

@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>2022년 보건의료정보관리자 및 교수 워크숍</title>
+    <title><%=title %></title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <link rel="stylesheet" href="css/home.css" />
     <meta
@@ -17,39 +17,22 @@
     <div class="container">
       <div class="frame">
         <div class="video-info">
+          
           <div class="video">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/AdUw5RdyZxI?controls=0"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+            <iframe src="https://video.ibm.com/embed/23952599" style="border: 0;" webkitallowfullscreen allowfullscreen frameborder="no" width="480" height="270" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
-          <div class="info">
-            <div class="question-box">
-              <input
-                type="text"
-                placeholder="질문할 메세지를 적고 Enter 를 눌러주세요."
-              />
-              <button>질문하기</button>
-            </div>
-            <div class="info-title">
-              <div class="info-text">
-                <div class="title">
-                  2022년 보건의료정보관리자 및 교수 워크숍
-                </div>
-                <div class="lastopen"></div>
-              </div>
-            </div>
-            <div class="info-detail"></div>
+          <div class="logo">
+            <img
+              src="https://www.khima.or.kr/img/@img_signature.png"
+              alt="KHIMA 시그니처 로고"
+            />
+            <h1><%=title %></h1>
           </div>
         </div>
 
         <div class="reference">
-          <div class="title">참고 자료</div>
+        <details >
+          <summary class="title" >참고 자료</summary>
           <div class="group">
             <div class="title">다운로드</div>
             <div class="contents">
@@ -59,7 +42,20 @@
               </a>
             </div>
           </div>
-          <div class="title">일정표</div>
+        </details>
+
+        <details>
+          <summary class="title" >질문하기</summary>
+          <div class="question-box">
+            <textarea
+              type="text"
+              placeholder="질문할 메세지를 적고 전송 버튼을 클릭하세요."
+            ></textarea>
+            <button>질문전송</button>
+          </div>
+        </details>
+        <details open>
+          <summary class="title">일정표</summary>
           <div class="group">
             <div class="time-table">
               <div class="time-group">등 록</div>
@@ -184,7 +180,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </details>
       </div>
       <div></div>
     </div>

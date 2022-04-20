@@ -2,6 +2,7 @@ const input_account = $('input[name=account]')
 const input_name = $('input[name=name]')
 
 const accountCheck = /^[\s0-9]+$/
+const nameCheck = /^[가-힣a-zA-Z]+$/
 
 $('#submitBtn').on('click', function () {
   if (!input_account.val()) {
@@ -13,7 +14,6 @@ $('#submitBtn').on('click', function () {
     return false
   } else {
     if (!accountCheck.test(input_account.val())) {
-      input_account.attr('required', 'required')
       Swal.fire({
         icon: 'warning',
         title: '등록번호에는\n숫자만 입력 가능합니다',
@@ -96,22 +96,27 @@ function login(postData) {
   })
 }
 
-$('input[name=email]').on('blur', function () {
-  if (emailCheck($('input[name=email]').val())) {
-    $('input[name=email]').addClass('valid:border-green-500')
-    $('input[name=email]').removeClass('border-red-500')
+input_account.on('blur', function () {
+  console.log(accountCheck + '.test(' + input_account.val() + ')')
+  console.log(accountCheck.test(input_account.val().toString()))
+  if (accountCheck.test(input_account.val().toString())) {
+    input_account.addClass('border-green-500')
+    input_account.removeClass('border-red-500')
+    console.log('account valid !')
   } else {
-    $('input[name=email]').addClass('border-red-500')
-    $('input[name=email]').removeClass('valid:border-green-500')
+    input_account.addClass('border-red-500')
+    input_account.removeClass('border-green-500')
+
+    console.log('account invalid !')
   }
 })
 
-$('input[name=password]').on('blur', () => {
-  if (passwordCheck($('input[name=password]').val())) {
-    $('input[name=password]').addClass('valid:border-green-500')
-    $('input[name=password]').removeClass('border-red-500')
+input_name.on('blur', () => {
+  if (nameCheck.test(input_name.val())) {
+    input_name.addClass('border-green-500')
+    input_name.removeClass('border-red-500')
   } else {
-    $('input[name=password]').addClass('border-red-500')
-    $('input[name=password]').removeClass('valid:border-green-500')
+    input_name.addClass('border-red-500')
+    input_name.removeClass('border-green-500')
   }
 })
