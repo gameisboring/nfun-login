@@ -1,16 +1,23 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-body {
-  background-color: #77c043;
+body,
+input,
+select,
+textarea,
+button,
+a {
+  font-family: 'Pretendard', sans-serif;
   margin: 0;
   -ms-user-select: none;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  font-family: 'Pretendard', Arial, sans-serif !important;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: auto;
+
+  text-size-adjust: none;
 }
 
 input {
@@ -18,6 +25,7 @@ input {
 }
 
 .container {
+  background-color: #77c043;
   display: grid;
   justify-content: center;
   align-content: center;
@@ -40,7 +48,7 @@ input {
 }
 
 .container > .frame > .video-info {
-  overflow: auto;
+  overflow: hidden;
   /*display: grid;*/
   /*gap: .5rem;*/
   border-radius: 0.7rem;
@@ -50,7 +58,7 @@ input {
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-top: 1vh;
+  margin-top: 0.5vh;
 }
 
 .container > .frame > .video-info > .logo h1 {
@@ -68,7 +76,7 @@ input {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   position: relative;
-  padding-bottom: 80vh;
+  padding-bottom: 56.25%;
   height: 0;
 }
 
@@ -141,14 +149,10 @@ input {
   transition: background-color 0.3s ease-out;
 }
 
+.container > .frame > .reference > details > summary:hover,
 .container > .frame > .reference > details[open] > summary {
   color: white;
-  background-color: #1d95d3;
-}
-
-.container > .frame > .reference > details > summary:hover {
   background-color: #005899;
-  color: white;
 }
 
 .container > .frame > .reference > details > summary:before {
@@ -485,4 +489,20 @@ input {
 
 .text-center {
   text-align: center;
+}
+
+#mask {
+  width: 100vw;
+  height: 100vh;
+  z-index: 11;
+  position: absolute;
+  top: 0;
+
+  background-color: white;
+}
+
+#mask > img {
+  margin: 0 auto;
+  width: 50%;
+  transform: translateY(50%);
 }

@@ -14,15 +14,25 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 var pool = require('./lib/db.pool')
+const { redirect } = require('express/lib/response')
 
 app.set('views', 'src/views')
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
 app.use('/', router)
 
-router.get('/', async function (req, res, next) {
+router.all('/', (req, res, next) => {
+  // 요청 body 변수 할당
+  const { account, name } = req.body
+  // 요청 로그 남기기
   let ip = requestIp.getClientIp(req)
-  logger.info(`요청 : ${req.method} ${req.url} | IP : ${ip}`)
+  logger.info(
+    `요청 라우트 : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
+  )
+  next()
+})
+
+router.get('/', async function (req, res, next) {
   checkStart(req, res)
 })
 
@@ -48,7 +58,6 @@ router.post('/login', async (req, res, next) => {
   try {
     const sql = 'SELECT * FROM `nfun`.`USERS` WHERE ACCOUNT = ? AND NAME = ?;'
     const [rows, fields] = await pool.query(sql, [account, name])
-    console.log(rows)
     // if 조회 정보 없음
     if (rows.length === 0) {
       logger.warn(`로그인 실패 | 등록번호 : ${account} | 이름 : ${name}`)
@@ -150,53 +159,6 @@ router.get('/download', function (req, res, next) {
     console.log(error)
   }
 })
-
-/*router.get('/home', function (req, res, next) {
-  res.render('home', { title: MAINPAGE_TITLE })
-})
-
- router.post('/register', async (req, res, next) => {
-  const { name, password, email, belong } = req.body
-  if (!req.body) {
-    console.log(req.body)
-    res.status(500)
-    res.send('fail')
-    return
-  }
-
-  pool.query(
-    `SELECT * FROM NFUN_BOOK WHERE BOOK_EMAIL = ? && book_name = ?;`,
-    [email, name],
-    async (err, selRes) => {
-      const _selRes = selRes[0] ? selRes[0] : null
-      if (err) {
-        console.log(err)
-        res.json({ ok: false })
-        return
-      }
-
-      if (_selRes != null) {
-        logger.error(`중복 가입 요청 | FROM : ${ip}`)
-        res.json({ ok: false })
-        return
-      }
-
-      const { hashedPassword, salt } = await createHashedPassword(password)
-      pool.query(
-        'INSERT INTO NFUN_BOOK(BOOK_NAME,BOOK_BELONG,BOOK_TIME,BOOK_EMAIL,BOOK_PASSWORD,BOOK_SALT)VALUES(?,?,sysdate(),?,?,?);',
-        [name, belong, email, hashedPassword, salt],
-        (err, selRes) => {
-          if (err) {
-            console.log(err)
-            res.json({ ok: false })
-            return
-          }
-          res.json({ ok: true })
-        }
-      )
-    }
-  )
-}) */
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`nstream web server listening at http://localhost:${PORT}`)

@@ -1,4 +1,5 @@
 node_modules
+docker-compose.yml
 .env
 src/public/images/**
 src/public/download/**

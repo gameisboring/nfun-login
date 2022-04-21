@@ -14,6 +14,9 @@ let pool = mysql.createPool({
   connectionLimit: 4,
 })
 
+console.log(`host : ${DB_HOST}\nuser : ${DB_USER} \npassword : ${DB_PASSWORD}\ndatabase : ${DB_DATABASE}
+`)
+
 pool.on('connection', function (connection) {
   connection.query('SET SESSION auto_increment_increment=1')
 })

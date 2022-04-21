@@ -1,3 +1,11 @@
+$(document).ready(() => {
+  removeMask()
+})
+function removeMask() {
+  $('#mask').fadeOut(1000)
+  $('.window').hide()
+}
+
 $(window).load(function () {
   $.ajax({
     url: '/admin/book',
@@ -28,7 +36,6 @@ function bookRender(userData) {
             <div class="text-sm font-medium text-gray-900">${
               userData.NAME
             }</div>
-            <div class="text-sm text-gray-500">test@email.com</div>
           </div>
         </div>
       </td>
@@ -65,5 +72,3 @@ function nullRender() {
   tbody.innerHTML = output
   table.append(tbody)
 }
-
-console.log('test')
