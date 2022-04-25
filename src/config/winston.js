@@ -9,7 +9,7 @@ let alignColorsAndTime = winston.format.combine(
     label: '[LOGGER]',
   }),
   winston.format.timestamp({
-    format: 'YYYY-MM-DD HH:MM:SS',
+    format: 'YYYY-MM-DD HH:mm:ss',
   }),
   // winston.format.printf((info) => ` ${info.label}  ${info.timestamp}  ${info.level} : ${info.message}`)
   winston.format.printf(
@@ -22,7 +22,7 @@ let notalignColorsAndTime = winston.format.combine(
     label: '[LOGGER]',
   }),
   winston.format.timestamp({
-    format: 'YYYY-MM-DD HH:MM:SS',
+    format: 'YYYY-MM-DD|HH:MM:SS',
   }),
   winston.format.printf(
     (info) => `[${info.timestamp}] | [${info.level}] | ${info.message}`

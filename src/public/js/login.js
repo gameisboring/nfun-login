@@ -69,6 +69,30 @@ function login(postData) {
     success: (res) => {
       switch (res.ok) {
         case true: {
+          console.log(res.role)
+          if (res.role === 'a') {
+            Swal.fire({
+              title: '이동할 페이지 선택',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: '관리자 페이지',
+              cancelButtonColor: '#d33',
+              cancelButtonText: '시청 페이지',
+            })
+              .then((res) => {
+                $('body').css('display', 'none')
+                return res
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  location.href = `/admin?acc=${postData.account}`
+                } else {
+                  location.href = `/home?acc=${postData.account}`
+                }
+              })
+            break
+          }
           Swal.fire({
             icon: 'success',
             title: '로그인 되었습니다',
@@ -94,30 +118,6 @@ function login(postData) {
             input_name.val('')
             isInvalid(input_name, '')
           })
-          break
-        }
-
-        case 'ADMIN': {
-          Swal.fire({
-            title: '이동할 페이지 선택',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: '관리자 페이지',
-            cancelButtonColor: '#d33',
-            cancelButtonText: '시청 페이지',
-          })
-            .then((res) => {
-              $('body').css('display', 'none')
-              return res
-            })
-            .then((result) => {
-              if (result.isConfirmed) {
-                location.href = `/admin?acc=${postData.account}`
-              } else {
-                location.href = `/home?acc=${postData.account}`
-              }
-            })
           break
         }
 

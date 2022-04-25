@@ -1,10 +1,11 @@
-require('dotenv').config()
-
 const express = require('express')
 const bodyParser = require('body-parser')
-// const { createHashedPassword, makePasswordHashed } = require('./lib/pw')
 const requestIp = require('request-ip')
 const logger = require('./config/winston')
+const errorController = require('./lib/errorController')
+require('dotenv').config()
+
+// const { createHashedPassword, makePasswordHashed } = require('./lib/pw')
 
 const router = express.Router()
 const app = express()
@@ -14,63 +15,59 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 var pool = require('./lib/db.pool')
-const { redirect } = require('express/lib/response')
 
 app.set('views', 'src/views')
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
 app.use('/', router)
 
-router.all('/', (req, res, next) => {
-  // 요청 body 변수 할당
-  const { account, name } = req.body
-  // 요청 로그 남기기
-  let ip = requestIp.getClientIp(req)
-  logger.info(
-    `요청 라우트 : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
-  )
-  next()
+// 서버가동
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`nstream web server listening at http://localhost:${PORT}`)
 })
 
+// 메인(로그인)
 router.get('/', async function (req, res, next) {
+  logReqInfo(req)
   checkStart(req, res)
 })
-
+// 등록
 router.get('/register', function (req, res, next) {
+  logReqInfo(req)
   res.redirect('/')
 })
-
+// 로그인
 router.get('/login', function (req, res, next) {
+  logReqInfo(req)
   res.redirect('/')
 })
 
+// 로그인 정보 처리 미들웨어
 router.post('/login', async (req, res, next) => {
   // 요청 body 변수 할당
   const { account, name } = req.body
-
-  // 요청 로그 남기기
-  let ip = requestIp.getClientIp(req)
-  logger.info(
-    `요청 라우트 : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
-  )
-
+  logReqInfo(req, account, name)
   // 시청자 정보 조회
   try {
     const sql = 'SELECT * FROM `nfun`.`USERS` WHERE ACCOUNT = ? AND NAME = ?;'
     const [rows, fields] = await pool.query(sql, [account, name])
     // if 조회 정보 없음
     if (rows.length === 0) {
-      logger.warn(`로그인 실패 | 등록번호 : ${account} | 이름 : ${name}`)
+      logger.error(`로그인 실패 | 등록번호 : ${account} | 이름 : ${name}`)
       res.json({ ok: false })
     } else {
       if (rows[0].ROLE == 'A') {
         // 관리자 제어
         logger.info(`관리자 로그인 | 등록번호 : ${account} | 이름 : ${name}`)
-        res.status(200).json({ ok: 'ADMIN' })
+        res.status(200).json({ ok: true, role: 'a' })
         return
       } else if (rows[0].ROLE == 'V') {
-        logger.info(`로그인 성공 | 등록번호 : ${account} | 이름 : ${name}`)
-        res.status(200).json({ ok: true })
+        logger.info(
+          `로그인 성공 | 등록번호 : ${account} | 이름 : ${name} | 직책 : ${
+            rows[0].ROLE === 'A' ? '관리자' : '시청자'
+          }`
+        )
+        res.status(200).json({ ok: true, role: 'v' })
         return
       } else {
         logger.error(
@@ -90,16 +87,36 @@ router.post('/login', async (req, res, next) => {
 })
 
 router.get('/home', async function (req, res) {
-  const acc = req.query.acc
-  if (acc) {
+  const account = req.query.acc
+  let ip = requestIp.getClientIp(req)
+
+  if (account) {
     try {
       const [rows, fields] = await pool.query(
         'SELECT NAME FROM `nfun`.`USERS` WHERE ACCOUNT = ?',
-        [acc]
+        [account]
       )
+      const name = rows[0].NAME
       if (rows.length > 0) {
-        const name = rows[0].NAME
-        res.render('home', { NAME: name, title: MAINPAGE_TITLE })
+        const sql =
+          'insert into NFUN.LOGS(LOGS_ACCOUNT,LOGS_NAME) values (?,(SELECT NAME FROM USERS WHERE ACCOUNT = ?));'
+
+        const [INSERT_rows, INSERT_fields] = await pool.query(sql, [
+          account,
+          account,
+        ])
+        if (INSERT_rows.affectedRows <= 0) {
+          logger.warn(
+            `조회 처리 실패 | 요청 라우트 : ${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${account} | NAME : ${name}`
+          )
+        } else {
+          logReqInfo(req, account, name)
+        }
+        res.render('home', {
+          account: account,
+          name: name,
+          title: MAINPAGE_TITLE,
+        })
         return
       }
     } catch (error) {
@@ -115,17 +132,18 @@ router.get('/home', async function (req, res) {
 })
 
 router.get('/admin', async function (req, res, next) {
-  const acc = req.query.acc
+  const account = req.query.acc
 
-  if (acc) {
+  if (account) {
     try {
       const [rows, fields] = await pool.query(
         "SELECT NAME FROM `nfun`.`USERS` WHERE ACCOUNT = ? AND ROLE = 'A'",
-        [acc]
+        [account]
       )
       if (rows.length > 0) {
         const name = rows[0].NAME
-        res.render('home2', { title: process.env.ADMINPAGE_TITLE })
+        logReqInfo(req, account, name)
+        res.render('admin', { title: process.env.ADMINPAGE_TITLE })
         return
       }
     } catch (error) {
@@ -140,6 +158,7 @@ router.get('/admin', async function (req, res, next) {
   res.end()
 })
 router.get('/admin/book', async function (req, res, next) {
+  logReqInfo(req)
   try {
     const sql = 'SELECT * FROM `nfun`.`USERS`;'
     const [rows, fields] = await pool.query(sql)
@@ -151,7 +170,21 @@ router.get('/admin/book', async function (req, res, next) {
   }
 })
 
+router.get('/admin/question', async function (req, res, next) {
+  logReqInfo(req)
+  try {
+    const sql = 'SELECT * FROM `nfun`.`QUESTION`;'
+    const [rows, fields] = await pool.query(sql)
+    rows.ok = true
+    res.json(rows)
+  } catch (error) {
+    logger.error('유저 목록 조회 실패')
+    console.log(error)
+  }
+})
+
 router.get('/download', function (req, res, next) {
+  logReqInfo(req, req.query.acc, req.query.name)
   try {
     const file = `${__dirname}/public/download/일정표.pdf`
     res.download(file)
@@ -160,8 +193,21 @@ router.get('/download', function (req, res, next) {
   }
 })
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`nstream web server listening at http://localhost:${PORT}`)
+// 질문 처리 미들웨어
+router.post('/question', async function (req, res) {
+  try {
+    const { account, name, context } = req.body
+    logReqInfo(req, account, name)
+    const sql = ` INSERT INTO NFUN.QUESTION (QST_CONTEXT,QST_ACCOUNT,QST_NAME) VALUES (?,?,?);`
+    const [rows, fields] = await pool.query(sql, [context, account, name])
+
+    if (rows.affectedRows === 1) {
+      res.json({ ok: true })
+    }
+  } catch (error) {
+    logger.error()
+    console.log(err)
+  }
 })
 
 async function checkStart(req, res) {
@@ -170,11 +216,11 @@ async function checkStart(req, res) {
     const startDate = new Date(rows[0].START)
     const nowDate = new Date()
 
-    logger.info(
+    /* logger.info(
       `시작시간 : ${startDate.toLocaleString()} | 렌더링 : ${
         nowDate > startDate
       }`
-    )
+    ) */
 
     if (nowDate > startDate) {
       res.render('login', { title: MAINPAGE_TITLE })
@@ -185,7 +231,33 @@ async function checkStart(req, res) {
       })
     }
   } catch (error) {
-    logger.error(error)
+    logError(req)
     console.log(error)
   }
 }
+
+// 요청 로그 남기기
+function logReqInfo(req, account, name) {
+  const ip = requestIp.getClientIp(req)
+  const agent = req.header('User-Agent')
+  logger.info(
+    `${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${
+      account ? account : 'null'
+    } | NAME : ${name ? name : 'null'} | USERAGENT : ${agent}`
+  )
+}
+
+// 에러 로그 남기기
+function logError(req, account, name) {
+  const ip = requestIp.getClientIp(req)
+
+  logger.error(
+    `${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${
+      account ? account : 'null'
+    } | NAME : ${name ? name : 'null'}`
+  )
+}
+
+//* 에러 컨트롤 */
+app.use(errorController.pageNotFoundError)
+app.use(errorController.respondInternalError)

@@ -4,4 +4,4 @@ docker-compose.yml
 src/public/images/**
 src/public/download/**
 logs/**
-
+db/*

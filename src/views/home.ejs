@@ -12,6 +12,7 @@
       src="https://kit.fontawesome.com/2144746efc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div id="mask">
@@ -38,7 +39,7 @@
           <div class="group">
             <div class="title">다운로드</div>
             <div class="contents">
-              <a class="content" href="/download">
+              <a class="content" href='/download?acc=<%=account%>&name=<%=name%>'>
                 <i class="fas fa-link"></i>
                 <div>일정표</div>
               </a>
@@ -49,11 +50,12 @@
         <details>
           <summary class="title" >질문하기</summary>
           <div class="question-box">
+            <input type="hidden" value="<%=name %>" />
             <textarea
               type="text"
-              placeholder="질문할 메세지를 적고 전송 버튼을 클릭하세요."
+              placeholder="질문할 메세지를 적고 질문제출 버튼을 클릭하세요."
             ></textarea>
-            <button>질문전송</button>
+            <button id="question-submit-button">질문제출</button>
           </div>
         </details>
         <details open>
