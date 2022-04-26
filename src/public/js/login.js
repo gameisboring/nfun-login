@@ -11,14 +11,14 @@ $('#submitBtn').on('click', function () {
   if (!input_account.val()) {
     Swal.fire({
       icon: 'warning',
-      title: '등록번호를 입력해주세요',
+      title: '면허번호를 입력해주세요',
     })
     return false
   } else {
     if (!accountCheck.test(input_account.val())) {
       Swal.fire({
         icon: 'warning',
-        title: '등록번호에는\n숫자만 입력해주세요',
+        title: '면허번호에는\n숫자만 입력해주세요',
       })
       return false
     }
@@ -111,7 +111,7 @@ function login(postData) {
           Swal.fire({
             icon: 'warning',
             title: '로그인 실패',
-            text: '성함과 등록번호를 확인해주세요',
+            text: '성함과 면허번호를 확인해주세요',
           }).then(() => {
             input_account.val('')
             isInvalid(input_account, '')
@@ -142,7 +142,7 @@ input_account.on('blur', function () {
       isInvalid(input_account, '숫자만 입력해주세요')
     }
   } else {
-    isInvalid(input_account, '등록번호를 입력해주세요')
+    isInvalid(input_account, '면허번호를 입력해주세요')
   }
 })
 

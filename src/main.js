@@ -5,7 +5,9 @@ const logger = require('./config/winston')
 const errorController = require('./lib/errorController')
 require('dotenv').config()
 
-// const { createHashedPassword, makePasswordHashed } = require('./lib/pw')
+const { convertArrayToCSV } = require('convert-array-to-csv')
+const xlsx = require('xlsx')
+const fs = require('fs')
 
 const router = express.Router()
 const app = express()
@@ -86,6 +88,7 @@ router.post('/login', async (req, res, next) => {
   }
 })
 
+// 홈 화면
 router.get('/home', async function (req, res) {
   const account = req.query.acc
   let ip = requestIp.getClientIp(req)
@@ -131,6 +134,24 @@ router.get('/home', async function (req, res) {
   res.end()
 })
 
+// 홈화면 질문 처리 미들웨어
+router.post('/home/question', async function (req, res) {
+  try {
+    const { account, name, context } = req.body
+    logReqInfo(req, account, name, { QUESTION: context })
+    const sql = ` INSERT INTO NFUN.QUESTION (QST_CONTEXT,QST_ACCOUNT,QST_NAME) VALUES (?,?,?);`
+    const [rows, fields] = await pool.query(sql, [context, account, name])
+
+    if (rows.affectedRows === 1) {
+      res.json({ ok: true })
+    }
+  } catch (error) {
+    logger.error()
+    console.log(error)
+  }
+})
+
+// 관리자 화면
 router.get('/admin', async function (req, res, next) {
   const account = req.query.acc
 
@@ -157,6 +178,8 @@ router.get('/admin', async function (req, res, next) {
   res.write('window.location="/" </script>')
   res.end()
 })
+
+// 관리자 유저 리스트 쿼리
 router.get('/admin/book', async function (req, res, next) {
   logReqInfo(req)
   try {
@@ -170,6 +193,33 @@ router.get('/admin/book', async function (req, res, next) {
   }
 })
 
+// 관리자 유저 리스트 다운로드
+router.get('/admin/book/download', async function (req, res, next) {
+  logReqInfo(req)
+  try {
+    const sql =
+      'SELECT NAME 이름, ACCOUNT 등록번호 FROM `nfun`.`USERS` WHERE ROLE = "V";'
+
+    const [rows, fields] = await pool.query(sql)
+    const csvFromRowsObject2 = xlsx.utils.json_to_sheet(rows)
+    const stream = xlsx.stream.to_csv(csvFromRowsObject2)
+
+    const fileName =
+      __dirname +
+      '/public/download/' +
+      process.env.MAINPAGE_TITLE +
+      '_참가자리스트.csv'
+
+    stream.pipe(fs.createWriteStream(fileName))
+
+    res.download(fileName)
+  } catch (error) {
+    logger.error('유저 목록 조회 실패')
+    console.log(error)
+  }
+})
+
+// 관리자 질문 리스트 쿼리
 router.get('/admin/question', async function (req, res, next) {
   logReqInfo(req)
   try {
@@ -178,11 +228,64 @@ router.get('/admin/question', async function (req, res, next) {
     rows.ok = true
     res.json(rows)
   } catch (error) {
-    logger.error('유저 목록 조회 실패')
+    logger.error('질문 목록 조회 실패')
     console.log(error)
   }
 })
 
+// 관리자 질문 리스트 다운로드
+router.get('/admin/question/download', async function (req, res, next) {
+  logReqInfo(req)
+  try {
+    const sql =
+      'SELECT QST_TIME 질문시각 ,QST_NAME 이름,QST_ACCOUNT 면허번호,QST_CONTEXT 질문내용 FROM `nfun`.`QUESTION`;'
+
+    const [rows, fields] = await pool.query(sql)
+    rows.forEach((data) => {
+      data.질문시각 = new Date(data.질문시각).toLocaleString()
+    })
+
+    const fileServe = new Promise((res, rej) => {
+      if (rows) {
+        const csvFromRowsObject2 = xlsx.utils.json_to_sheet(rows)
+        const stream = xlsx.stream.to_csv(csvFromRowsObject2)
+        const fileName =
+          __dirname +
+          '/public/download/' +
+          process.env.MAINPAGE_TITLE +
+          '_질문리스트.csv'
+        stream.pipe(fs.createWriteStream(fileName))
+        res(fileName)
+        console.log('2222')
+      }
+    })
+
+    fileServe.then((fileName) => {
+      res.sendFile(fileName)
+      console.log('3333')
+    })
+  } catch (error) {
+    logger.error('질문 목록 조회 실패')
+    console.log(error)
+  }
+})
+
+router.get('/admin/info', async function (req, res, next) {
+  logReqInfo(req)
+
+  try {
+    const sql =
+      'SELECT (SELECT COUNT(*) FROM NFUN.LOGS) HITS , (SELECT COUNT(*) FROM NFUN.USERS) USERS, (SELECT COUNT(*) FROM NFUN.QUESTION) QUESTIONS, START FROM NFUN.CONFIG;'
+    const [rows, fields] = await pool.query(sql)
+    rows.ok = true
+    res.json(rows).status(200)
+  } catch (error) {
+    logger.error('관리자 정보 목록 조회 실패')
+    console.log(error)
+  }
+})
+
+// 첨부자료 다운로드
 router.get('/download', function (req, res, next) {
   logReqInfo(req, req.query.acc, req.query.name)
   try {
@@ -193,34 +296,12 @@ router.get('/download', function (req, res, next) {
   }
 })
 
-// 질문 처리 미들웨어
-router.post('/question', async function (req, res) {
-  try {
-    const { account, name, context } = req.body
-    logReqInfo(req, account, name)
-    const sql = ` INSERT INTO NFUN.QUESTION (QST_CONTEXT,QST_ACCOUNT,QST_NAME) VALUES (?,?,?);`
-    const [rows, fields] = await pool.query(sql, [context, account, name])
-
-    if (rows.affectedRows === 1) {
-      res.json({ ok: true })
-    }
-  } catch (error) {
-    logger.error()
-    console.log(err)
-  }
-})
-
+//
 async function checkStart(req, res) {
   try {
     const [rows, fields] = await pool.query(`SELECT START FROM CONFIG;`)
     const startDate = new Date(rows[0].START)
     const nowDate = new Date()
-
-    /* logger.info(
-      `시작시간 : ${startDate.toLocaleString()} | 렌더링 : ${
-        nowDate > startDate
-      }`
-    ) */
 
     if (nowDate > startDate) {
       res.render('login', { title: MAINPAGE_TITLE })
@@ -237,24 +318,34 @@ async function checkStart(req, res) {
 }
 
 // 요청 로그 남기기
-function logReqInfo(req, account, name) {
+function logReqInfo(req, account, name, object) {
   const ip = requestIp.getClientIp(req)
+  if (object) {
+    var key = Object.keys(object)
+    var val = Object.values(object)
+  }
+
   const agent = req.header('User-Agent')
   logger.info(
     `${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${
       account ? account : 'null'
-    } | NAME : ${name ? name : 'null'} | USERAGENT : ${agent}`
+    } | NAME : ${name ? name : 'null'} | USERAGENT : ${agent} | ${
+      key != undefined ? key + ' : ' + val : ''
+    }`
   )
 }
 
 // 에러 로그 남기기
-function logError(req, account, name) {
+function logError(req, account, name, object) {
   const ip = requestIp.getClientIp(req)
-
+  if (object) {
+    const key = Object.keys(object)
+    const val = Object.values(object)
+  }
   logger.error(
     `${req.method} ${req.url} | FROM : ${ip} | ACCOUNT : ${
       account ? account : 'null'
-    } | NAME : ${name ? name : 'null'}`
+    } | NAME : ${name ? name : 'null'} | ${key ? key + ' : ' + val : ''}`
   )
 }
 

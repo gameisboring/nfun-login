@@ -8,11 +8,12 @@ button,
 a {
   font-family: 'Pretendard', sans-serif;
   margin: 0;
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
+
+  -khtml-user-select: auto;
+  -moz-user-select: auto;
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: auto;
@@ -183,21 +184,29 @@ input {
   font-weight: 700;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid #aaa;
+  text-decoration-color: red;
 }
 
-.container > .frame > .reference > details > .group > .contents {
+.container > .frame > .reference .contents {
   margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  background-color: #005899;
+  border-radius: 7px;
 }
 
 .container > .frame > .reference > details > .group > .contents > .content {
   padding: 0.3rem 0.5rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: baseline;
+  /* display: grid; */
+  /* grid-template-columns: auto 1fr; */
+  /* align-items: baseline; */
   gap: 0.4rem;
   border-radius: 0.7rem;
   text-decoration: none;
-  color: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .container > .frame > .reference > details > .question-box {
@@ -223,16 +232,22 @@ input {
   border: 2px solid #888;
 }
 
-.container > .frame > .reference > details > .question-box > button {
+.container
+  > .frame
+  > .reference
+  > details
+  > .question-box
+  > .contents
+  > button {
   border: 0px;
   background-color: #005899;
   color: #fff;
   border-radius: 0.7rem;
   padding: 0.5rem 0;
-  margin-top: 0.5rem;
   cursor: pointer;
   font-size: 1.1rem;
   font-weight: 700;
+  width: 100%;
 }
 
 .container
@@ -241,7 +256,8 @@ input {
   > details
   > .group
   > .contents
-  > .content:hover {
+  > .content:hover,
+.container > .frame > .reference > details > .question-box button:hover {
   background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
@@ -252,7 +268,8 @@ input {
   > details
   > .group
   > .contents
-  > .content:active {
+  > .content:active,
+.container > .frame > .reference > details > .question-box button :active {
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
@@ -524,4 +541,10 @@ input {
   margin: 0 auto;
   width: 50%;
   transform: translateY(50%);
+}
+
+.text-red-underline {
+  color: red;
+  text-decoration: underline;
+  text-underline-position: under;
 }

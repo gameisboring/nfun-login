@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <title><%=title %></title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/home.min.css" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -15,14 +15,21 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
-    <div id="mask">
-    </div>
+    <div id="mask"></div>
     <div class="container">
       <div class="frame">
         <div class="video-info">
-          
           <div class="video">
-            <iframe src="https://video.ibm.com/embed/23952599" style="border: 0;" webkitallowfullscreen allowfullscreen frameborder="no" width="480" height="270" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe
+              src="https://video.ibm.com/embed/23952599"
+              style="border: 0"
+              webkitallowfullscreen
+              allowfullscreen
+              frameborder="no"
+              width="480"
+              height="270"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
           <div class="logo">
             <img
@@ -34,159 +41,179 @@
         </div>
 
         <div class="reference">
-        <details >
-          <summary class="title" >참고 자료</summary>
-          <div class="group">
-            <div class="title">다운로드</div>
-            <div class="contents">
-              <a class="content" href='/download?acc=<%=account%>&name=<%=name%>'>
+          <details>
+            <summary class="title">출석체크</summary>
+            <div class="group">
+              <div class="title text-center">
+                참석자께서는 교육 참석 여부 확인을 위해 아래
+                <span class="text-red-underline">출석체크 버튼을 클릭</span>하여
+                연결된 웹페이지에서
+                <span class="text-red-underline">출석정보를 제출</span>하여
+                주시기 바랍니다.<br />(<span class="text-red-underline"
+                  >교육 중 1회 시행</span
+                >)
+              </div>
+              <div class="contents">
+                <!-- <a class="content" href='/download?acc=<%=account%>&name=<%=name%>'>
                 <i class="fas fa-link"></i>
                 <div>일정표</div>
-              </a>
+              </a> -->
+                <a
+                  class="content"
+                  href="https://forms.gle/xCJk98nv9AJF3Za86"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                  <div>출석체크</div>
+                </a>
+              </div>
             </div>
-          </div>
-        </details>
+          </details>
 
-        <details>
-          <summary class="title" >질문하기</summary>
-          <div class="question-box">
-            <input type="hidden" value="<%=name %>" />
-            <textarea
-              type="text"
-              placeholder="질문할 메세지를 적고 질문제출 버튼을 클릭하세요."
-            ></textarea>
-            <button id="question-submit-button">질문제출</button>
-          </div>
-        </details>
-        <details open>
-          <summary class="title">일정표</summary>
-          <div class="group">
-            <div class="time-table">
-              <div class="time-group">등 록</div>
-              <div class="time-form">
-                <div class="title">등록 (접속)</div>
-                <div class="time">09:00 ~ 09:20</div>
+          <details>
+            <summary class="title">질문하기</summary>
+            <div class="question-box">
+              <input type="hidden" value="<%=name %>" />
+              <textarea
+                type="text"
+                placeholder="강의 내용에 관한 질의가 있으신 경우 질문할 메세지를 적고 전송 버튼을 클릭하세요."
+              ></textarea>
+              <div class="contents">
+                <button id="question-submit-button">질문제출</button>
               </div>
-              <div class="time-group">개 회 식</div>
-              <div class="time-form">
-                <div class="title">개회식</div>
-                <div class="time">09:20 ~ 09:30</div>
-              </div>
-              <div class="time-group">교 육 일 정</div>
-              <div class="time-form">
-                <div class="title">팀장 리더십 - 팀원 동기부여 방법 -</div>
-                <div class="time">09:30 ~ 10:50</div>
-                <div class="people">• 유경철<br />(소통과 공감 대표)</div>
-              </div>
-              <div class="time-form">
-                <div class="title">
-                  국내외 ICD 11 적용 개요 및 회원 역량 강화 방안
+            </div>
+          </details>
+          <details open>
+            <summary class="title">일정표</summary>
+            <div class="group">
+              <div class="time-table">
+                <div class="time-group">등 록</div>
+                <div class="time-form">
+                  <div class="title">등록 (접속)</div>
+                  <div class="time">09:00 ~ 09:20</div>
                 </div>
-                <div class="time">10:50 ~ 11:20</div>
-                <div class="people">
-                  • 백설경<br />(아주대학교병원 보건의료정보팀 팀장)
+                <div class="time-group">개 회 식</div>
+                <div class="time-form">
+                  <div class="title">개회식</div>
+                  <div class="time">09:20 ~ 09:30</div>
                 </div>
-              </div>
-              <div class="time-form">
-                <div class="title">ICD 11의 구조 분석, KCD 적용 시 연계</div>
-                <div class="time">11:20 ~ 11:40</div>
-                <div class="people">
-                  황규연<br />(부산대학교병원 빅데이터팀)
+                <div class="time-group">교 육 일 정</div>
+                <div class="time-form">
+                  <div class="title">팀장 리더십 - 팀원 동기부여 방법 -</div>
+                  <div class="time">09:30 ~ 10:50</div>
+                  <div class="people">• 유경철<br />(소통과 공감 대표)</div>
                 </div>
-              </div>
-              <div class="time-form">
-                <div class="title">ICD 11 FT 결과와 팀원 역량 개발 방향</div>
-                <div class="time">11:40 ~ 12:00</div>
-                <div class="people">
-                  조윤정<br />(중앙대학교병원 의무기록팀 팀장)
+                <div class="time-form">
+                  <div class="title">
+                    국내외 ICD 11 적용 개요 및 회원 역량 강화 방안
+                  </div>
+                  <div class="time">10:50 ~ 11:20</div>
+                  <div class="people">
+                    • 백설경<br />(아주대학교병원 보건의료정보팀 팀장)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">ICD 11의 구조 분석, KCD 적용 시 연계</div>
+                  <div class="time">11:20 ~ 11:40</div>
+                  <div class="people">
+                    황규연<br />(부산대학교병원 빅데이터팀)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">ICD 11 FT 결과와 팀원 역량 개발 방향</div>
+                  <div class="time">11:40 ~ 12:00</div>
+                  <div class="people">
+                    조윤정<br />(중앙대학교병원 의무기록팀 팀장)
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="group">
-            <div class="time-table">
-              <div class="time-group">점 심 식 사</div>
-              <div class="time-form">
-                <div class="title text-center">12:00 ~ 13:10</div>
-              </div>
-            </div>
-          </div>
-          <div class="group">
-            <div class="time-table">
-              <div class="time-group">교 육 일 정</div>
-              <div class="time-form">
-                <div class="title">
-                  EMR 인증제도‧기준 개선 및 건강보험수가 신설 추진 방향
-                </div>
-                <div class="time">13:10 ~ 13:50</div>
-                <div class="people">
-                  김유미<br />
-                  (한국보건의료정보원 EMR기준개발부 부장)
-                </div>
-              </div>
-              <div class="time-form">
-                <div class="title">
-                  응급의료기관평가와 건강보험 수가, 평가 지표 관리 방향
-                </div>
-                <div class="time">13:50 ~ 14:20</div>
-                <div class="people">
-                  조혜경<br />(국립중앙의료원 응급의료평가질향상팀 팀장)
-                </div>
-              </div>
-              <div class="time-form">
-                <div class="title">
-                  4주기 의료기관인증평가 개정 내용과 의무기록 및 데이터 관리
-                  방향
-                </div>
-                <div class="time">14:20 ~ 14:50</div>
-                <div class="people">김선자<br />(서울아산병원 AGS실 부장)</div>
-              </div>
-            </div>
-          </div>
-          <div class="group">
-            <div class="time-table">
-              <div class="time-group">커피 브레이크</div>
-              <div class="time-form">
-                <div class="title text-center">14:50 ~ 15:10</div>
-              </div>
-            </div>
-          </div>
-          <div class="group">
-            <div class="time-table">
-              <div class="time-group">교 육 일 정</div>
-              <div class="time-form">
-                <div class="title">
-                  경영지원 및 조직 관리를 위한 EMR의 기준정보 관리
-                </div>
-                <div class="time">15:10 ~ 16:00</div>
-                <div class="people">
-                  류순옥<br />
-                  (충남대학교병원 의무기록팀 팀장)
-                </div>
-              </div>
-              <div class="time-form">
-                <div class="title">
-                  평가 지표 중심의 데이터 관리 직무 전환과 팀원 관리 전략
-                </div>
-                <div class="time">16:00 ~ 16:50</div>
-                <div class="people">
-                  이희원<br />
-                  (대한보건의료정보관리사협회 보건의료정보연구소 소장)
-                </div>
-              </div>
-              <div class="time-form">
-                <div class="title">개인정보보호법 개정안 주요 내용</div>
-                <div class="time">16:50 ~ 17:30</div>
-                <div class="people">
-                  이병남<br />
-                  (개인정보보호위원회 개인정보보호정책과 과장)
+            <div class="group">
+              <div class="time-table">
+                <div class="time-group">점 심 식 사</div>
+                <div class="time-form">
+                  <div class="title text-center">12:00 ~ 13:10</div>
                 </div>
               </div>
             </div>
-          </div>
-        </details>
+            <div class="group">
+              <div class="time-table">
+                <div class="time-group">교 육 일 정</div>
+                <div class="time-form">
+                  <div class="title">
+                    EMR 인증제도‧기준 개선 및 건강보험수가 신설 추진 방향
+                  </div>
+                  <div class="time">13:10 ~ 13:50</div>
+                  <div class="people">
+                    김유미<br />
+                    (한국보건의료정보원 EMR기준개발부 부장)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">
+                    응급의료기관평가와 건강보험 수가, 평가 지표 관리 방향
+                  </div>
+                  <div class="time">13:50 ~ 14:20</div>
+                  <div class="people">
+                    조혜경<br />(국립중앙의료원 응급의료평가질향상팀 팀장)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">
+                    4주기 의료기관인증평가 개정 내용과 의무기록 및 데이터 관리
+                    방향
+                  </div>
+                  <div class="time">14:20 ~ 14:50</div>
+                  <div class="people">
+                    김선자<br />(서울아산병원 AGS실 부장)
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="group">
+              <div class="time-table">
+                <div class="time-group">커피 브레이크</div>
+                <div class="time-form">
+                  <div class="title text-center">14:50 ~ 15:10</div>
+                </div>
+              </div>
+            </div>
+            <div class="group">
+              <div class="time-table">
+                <div class="time-group">교 육 일 정</div>
+                <div class="time-form">
+                  <div class="title">
+                    경영지원 및 조직 관리를 위한 EMR의 기준정보 관리
+                  </div>
+                  <div class="time">15:10 ~ 16:00</div>
+                  <div class="people">
+                    류순옥<br />
+                    (충남대학교병원 의무기록팀 팀장)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">
+                    평가 지표 중심의 데이터 관리 직무 전환과 팀원 관리 전략
+                  </div>
+                  <div class="time">16:00 ~ 16:50</div>
+                  <div class="people">
+                    이희원<br />
+                    (대한보건의료정보관리사협회 보건의료정보연구소 소장)
+                  </div>
+                </div>
+                <div class="time-form">
+                  <div class="title">개인정보보호법 개정안 주요 내용</div>
+                  <div class="time">16:50 ~ 17:30</div>
+                  <div class="people">
+                    이병남<br />
+                    (개인정보보호위원회 개인정보보호정책과 과장)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
       </div>
-      <div></div>
     </div>
   </body>
   <script type="text/javascript" src="js/home.js"></script>
