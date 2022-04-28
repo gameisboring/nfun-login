@@ -5,7 +5,6 @@ const logger = require('./config/winston')
 const errorController = require('./lib/errorController')
 require('dotenv').config()
 
-const { convertArrayToCSV } = require('convert-array-to-csv')
 const xlsx = require('xlsx')
 const fs = require('fs')
 
@@ -270,6 +269,7 @@ router.get('/admin/question/download', async function (req, res, next) {
   }
 })
 
+// 어드민 정보 조회 쿼리
 router.get('/admin/info', async function (req, res, next) {
   logReqInfo(req)
 

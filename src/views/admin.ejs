@@ -28,6 +28,17 @@
     ></script>
 
     <title><%= title %></title>
+    <style>
+      #mainSection {
+        width: 100%;
+      }
+
+      @media (min-width: 768px) {
+        #mainSection {
+          width: 90%;
+        }
+      }
+    </style>
   </head>
 
   <body class="bg-gray-800 leading-normal tracking-normal">
@@ -39,7 +50,7 @@
             class="bg-gray-800 shadow-xl h-20 fixed bottom-0 mt-12 md:relative z-10 w-full md:w-48 content-center"
           >
             <div
-              class="md:mt-12 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between"
+              class="md:mt-12 md:w-48 content-center md:content-start text-left justify-between"
             >
               <ul
                 class="list-reset flex flex-row md:flex-col pt-3 md:py-3 px-1 md:px-2 text-center md:text-left"
@@ -76,7 +87,7 @@
             </div>
           </div>
         </nav>
-        <section class="w-full">
+        <section id="mainSection">
           <div
             id="main"
             class="main-content flex-1 bg-gray-100 pb-24 md:pb-5 min-h-screen"
@@ -311,5 +322,5 @@
       </div>
     </main>
   </body>
-  <script src="js/admin.min.js"></script>
+  <script src="js/admin.js"></script>
 </html>

@@ -1,9 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <title><%=title %></title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/home.min.css" />
+    <script type="text/javascript" src="js/home.js"></script>
+    <link rel="stylesheet" href="css/home2.css" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -41,7 +43,7 @@
         </div>
 
         <div class="reference">
-          <details>
+          <details open>
             <summary class="title">출석체크</summary>
             <div class="group">
               <div class="title text-center">
@@ -70,7 +72,7 @@
             </div>
           </details>
 
-          <details>
+          <details open>
             <summary class="title">질문하기</summary>
             <div class="question-box">
               <input type="hidden" value="<%=name %>" />
@@ -104,26 +106,24 @@
                   <div class="people">• 유경철<br />(소통과 공감 대표)</div>
                 </div>
                 <div class="time-form">
-                  <div class="title">
-                    국내외 ICD 11 적용 개요 및 회원 역량 강화 방안
-                  </div>
+                  <div class="title">ICD-11 2022 개요 및 이행 역량 강화</div>
                   <div class="time">10:50 ~ 11:20</div>
                   <div class="people">
                     • 백설경<br />(아주대학교병원 보건의료정보팀 팀장)
                   </div>
                 </div>
                 <div class="time-form">
-                  <div class="title">ICD 11의 구조 분석, KCD 적용 시 연계</div>
+                  <div class="title">ICD-11 구조분석 및 KCD 적용</div>
                   <div class="time">11:20 ~ 11:40</div>
                   <div class="people">
-                    황규연<br />(부산대학교병원 빅데이터팀)
+                    • 황규연<br />(부산대학교병원 의료빅데이터팀 차장)
                   </div>
                 </div>
                 <div class="time-form">
-                  <div class="title">ICD 11 FT 결과와 팀원 역량 개발 방향</div>
+                  <div class="title">ICD-11 FT 결과와 팀원 역량 개발 방향</div>
                   <div class="time">11:40 ~ 12:00</div>
                   <div class="people">
-                    조윤정<br />(중앙대학교병원 의무기록팀 팀장)
+                    • 조윤정<br />(중앙대학교병원 의무기록팀 팀장)
                   </div>
                 </div>
               </div>
@@ -140,13 +140,11 @@
               <div class="time-table">
                 <div class="time-group">교 육 일 정</div>
                 <div class="time-form">
-                  <div class="title">
-                    EMR 인증제도‧기준 개선 및 건강보험수가 신설 추진 방향
-                  </div>
+                  <div class="title">EMR 인증제도 및 기준 개선 추진 방향</div>
                   <div class="time">13:10 ~ 13:50</div>
                   <div class="people">
-                    김유미<br />
-                    (한국보건의료정보원 EMR기준개발부 부장)
+                    • 유재은<br />
+                    (한국보건의료정보원 EMR기준개발부 차장)
                   </div>
                 </div>
                 <div class="time-form">
@@ -155,7 +153,7 @@
                   </div>
                   <div class="time">13:50 ~ 14:20</div>
                   <div class="people">
-                    조혜경<br />(국립중앙의료원 응급의료평가질향상팀 팀장)
+                    • 조혜경<br />(국립중앙의료원 응급의료평가질향상팀 팀장)
                   </div>
                 </div>
                 <div class="time-form">
@@ -165,7 +163,7 @@
                   </div>
                   <div class="time">14:20 ~ 14:50</div>
                   <div class="people">
-                    김선자<br />(서울아산병원 AGS실 부장)
+                    • 김선자<br />(서울아산병원 AGS실 부장)
                   </div>
                 </div>
               </div>
@@ -182,12 +180,12 @@
               <div class="time-table">
                 <div class="time-group">교 육 일 정</div>
                 <div class="time-form">
-                  <div class="title">
+                  <div class="title border-red">
                     경영지원 및 조직 관리를 위한 EMR의 기준정보 관리
                   </div>
                   <div class="time">15:10 ~ 16:00</div>
                   <div class="people">
-                    류순옥<br />
+                    • 류순옥<br />
                     (충남대학교병원 의무기록팀 팀장)
                   </div>
                 </div>
@@ -197,15 +195,15 @@
                   </div>
                   <div class="time">16:00 ~ 16:50</div>
                   <div class="people">
-                    이희원<br />
+                    • 이희원<br />
                     (대한보건의료정보관리사협회 보건의료정보연구소 소장)
                   </div>
                 </div>
                 <div class="time-form">
-                  <div class="title">개인정보보호법 개정안 주요 내용</div>
+                  <div class="title">2022년 개인정보 보호법 주요 개정내용</div>
                   <div class="time">16:50 ~ 17:30</div>
                   <div class="people">
-                    이병남<br />
+                    • 이병남<br />
                     (개인정보보호위원회 개인정보보호정책과 과장)
                   </div>
                 </div>
@@ -216,5 +214,4 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="js/home.js"></script>
 </html>

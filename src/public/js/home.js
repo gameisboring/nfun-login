@@ -1,4 +1,18 @@
-$(document).ready(() => {
+'use strict'
+
+var agent = navigator.userAgent.toLowerCase()
+if (
+  (navigator.appName == 'Netscape' &&
+    navigator.userAgent.search('Trident') != -1) ||
+  agent.indexOf('msie') != -1
+) {
+  alert(
+    'Internet Explorer(인터넷 익스플로러)는 호환되지 않는 브라우저 입니다. 크롬,엣지,파이어폭스,웨일 과 같은 브라우저로 이용해주시기 바랍니다'
+  )
+}
+
+$(document).ready(function () {
+  console.log('home')
   removeMask()
 })
 function getAccount() {
@@ -8,7 +22,6 @@ function getAccount() {
 function removeMask() {
   $('#mask').fadeOut(1000)
   $('.window').hide()
-  hit()
 }
 
 $('#question-submit-button').on('click', function () {
@@ -28,7 +41,7 @@ $('#question-submit-button').on('click', function () {
       context: $('.question-box > textarea').val(),
     },
     dataType: 'JSON',
-    success: (res) => {
+    success: function (res) {
       if (res.ok) {
         Swal.fire({
           icon: 'success',
